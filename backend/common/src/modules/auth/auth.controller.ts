@@ -1,6 +1,7 @@
 import {
 	Body,
 	Controller,
+	Get,
 	HttpCode,
 	HttpStatus,
 	Post,
@@ -10,6 +11,7 @@ import {
 import { Request, Response } from 'express'
 
 import { AuthService } from './auth.service'
+import { Authorization } from './decorators/auth.decorator'
 import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
 
@@ -36,5 +38,12 @@ export class AuthController {
 		@Res({ passthrough: true }) res: Response
 	) {
 		return this.authService.logout(req, res)
+	}
+
+	@Authorization()
+	@Get('verify-session')
+	verify(@Req() req: Request) {
+		console.log('Session cookie:', req.cookies)
+		return this.authService.verify(req)
 	}
 }

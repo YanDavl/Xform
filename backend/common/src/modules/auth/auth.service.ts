@@ -90,4 +90,10 @@ export class AuthService {
 			})
 		})
 	}
+
+	public async verify(req: Request) {
+		return {
+			userId: req.session?.userId
+		}
+	}
 }
