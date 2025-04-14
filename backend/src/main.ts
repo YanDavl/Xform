@@ -13,18 +13,23 @@ import { parseBoolean } from './libs/common/utils/parse-boolean'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
+	const config = app.get(ConfigService)
 
 	const swaggerConfig = new DocumentBuilder()
-		.setTitle('Пример API')
-		.setDescription('Описание API')
+		.setTitle('API Xform')
+		.setDescription('Описание')
 		.setVersion('1.0')
-		.addTag('example')
+		.addCookieAuth(config.getOrThrow<string>('COOKIES_SECRET'))
+		// .addTag('example')
 		.build()
 
 	const document = SwaggerModule.createDocument(app, swaggerConfig)
-	SwaggerModule.setup('api', app, document)
+	SwaggerModule.setup('docs', app, document, {
+		swaggerOptions: {
+			persistAuthorization: true
+		}
+	})
 
-	const config = app.get(ConfigService)
 	const redis = new IORedis({
 		host: config.getOrThrow<string>('REDIS_HOST'),
 		port: config.getOrThrow<number>('REDIS_PORT'),
