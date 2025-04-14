@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"xform/llm/internal/formgen"
@@ -20,7 +19,6 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	answer, err := formgen.CreateForm(req.Prompt)
 
-	fmt.Println(answer, "ddd", err)
 	if err != nil {
 		http.Error(w, "LLM error", http.StatusInternalServerError)
 		return

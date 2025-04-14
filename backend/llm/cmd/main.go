@@ -13,6 +13,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 
 	"xform/llm/internal/handler"
+	"xform/llm/middlewares"
 )
 
 func main() {
@@ -22,6 +23,7 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Timeout(30 * time.Second))
+	r.Use(middlewares.AuthMiddleware)
 
 	r.Post("/ai-form", handler.FormHandler)
 
