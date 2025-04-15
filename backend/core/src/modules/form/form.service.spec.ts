@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { FieldType } from '@prisma/__generated__'
 
 import { PrismaService } from '../prisma/prisma.service'
 
@@ -67,13 +66,6 @@ describe('FormService', () => {
 	})
 
 	it('should return form by id', async () => {
-		const mockData = {
-			id: FORM_ID,
-			userId: USER_ID,
-			createdAt: DATE,
-			updatedAt: DATE
-		}
-
 		mockPrismaService.form.findUnique.mockResolvedValue(mockResponse)
 
 		const result = await service.getForm(FORM_ID)
@@ -84,7 +76,6 @@ describe('FormService', () => {
 		mockPrismaService.form.create.mockResolvedValue(mockResponse)
 
 		const result = await service.createForm(mockCreateFormDto, USER_ID)
-
 		expect(mockPrismaService.form.create).toHaveBeenCalledWith({
 			data: {
 				userId: USER_ID,

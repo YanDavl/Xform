@@ -76,10 +76,11 @@
 			"ts"
 		],
 		"moduleNameMapper": {
-			"^@/(.*)$": "<rootDir>/$1",
+			"^@/(.*)$": "<rootDir>/src/$1",
+			"^@prisma/__generated__$": "<rootDir>/prisma/__generated__/index",
 			"^@prisma/(.*)$": "<rootDir>/prisma/__generated__/$1"
 		},
-		"rootDir": "src",
+		"rootDir": ".",
 		"testRegex": ".*\\.spec\\.ts$",
 		"transform": {
 			"^.+\\.(t|j)s$": "ts-jest"
@@ -88,6 +89,15 @@
 			"**/*.(t|j)s"
 		],
 		"coverageDirectory": "../coverage",
-		"testEnvironment": "node"
+		"testEnvironment": "node",
+		"testPathIgnorePatterns": [
+			"/node_modules/",
+			"/dist"
+		],
+		"coveragePathIgnorePatterns": [
+			"/node_modules/'",
+			"/__generated__/",
+			"/dist"
+		]
 	}
 }

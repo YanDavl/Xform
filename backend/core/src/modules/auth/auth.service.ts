@@ -10,10 +10,10 @@ import { verify } from 'argon2'
 import { Request, Response } from 'express'
 
 import { UserService } from '@/modules/user/user.service'
-import { AuthMethod, User } from '@/prisma/__generated__'
 
 import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
+import { AuthMethod, User } from '@prisma/__generated__'
 
 @Injectable()
 export class AuthService {

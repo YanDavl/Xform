@@ -30,6 +30,7 @@ export class FormController {
 
 	@Authorization()
 	@Get(':id')
+	@ApiOperation({ summary: 'Получить форму по id' })
 	findOne(@Param('id') id: string) {
 		return this.formService.getForm(id)
 	}
