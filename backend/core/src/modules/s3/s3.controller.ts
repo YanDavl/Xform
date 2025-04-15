@@ -1,42 +1,21 @@
-import {
-    Controller,
-    Post,
-    UploadedFile,
-    UseInterceptors,
-    Body,
-  } from '@nestjs/common';
-  import { FileInterceptor } from '@nestjs/platform-express';
-  import { S3Service } from './s3.service';
-  import { FormService } from '../form/form.service';
-  import { Authorized } from '../auth/decorators/authorized.decorator';
-  import { UploadBackgroundDto } from './dto/upload.dto';
-  
-  @Controller('upload')
-  export class UploadController {
-    constructor(
-      private readonly s3Service: S3Service,
-      private readonly formService: FormService,
-    ) {}
-  
-    @Post('background')
-    @UseInterceptors(FileInterceptor('file'))
-    async uploadBackground(
-      @UploadedFile() file: Express.Multer.File,
-      @Authorized('id') userId: string,
-      @Body() body: UploadBackgroundDto,
-    ) {
-      const { formId } = body;
-  
+import { Controller, Get, Query } from '@nestjs/common';
+import { S3Service } from './s3.service';
+import { v4 as uuidv4 } from 'uuid';
+import { Authorization } from '../auth/decorators/auth.decorator';
 
-      const form = await this.formService.getForm(formId);
-      if (form.userId !== userId) {
-        throw new Error('Доступ запрещен');
-      }
-  
-      const key = await this.s3Service.uploadFile(file, userId, formId);
-      return {
-        url: `http://localhost:9000/form-backgrounds/${key}`,
-      };
-    }
+@Controller('upload')
+export class UploadController {
+  constructor(private readonly s3Service: S3Service) {}
+
+  @Authorization()
+  @Get('signed-url')
+  async getSignedUrl(@Query('formId') formId: string, @Query('fileName') fileName: string) {
+    const key = `${formId}/${uuidv4()}-${fileName}`;
+    const signedUrl = await this.s3Service.getSignedUrl(key, 'image/jpeg');
+
+    return {
+      url: signedUrl,
+      key,
+    };
   }
-  
+}
