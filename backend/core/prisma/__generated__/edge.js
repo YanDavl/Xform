@@ -190,7 +190,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/sebastian/Xform/backend/prisma/__generated__",
+      "value": "/home/sebastian/Xform/backend/core/prisma/__generated__",
       "fromEnvVar": null
     },
     "config": {
@@ -204,7 +204,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/sebastian/Xform/backend/prisma/schema.prisma",
+    "sourceFilePath": "/home/sebastian/Xform/backend/core/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

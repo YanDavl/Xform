@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
 import { IS_DEV_ENV } from './libs/common/utils/is-dev.util'
 import { AuthModule } from './modules/auth/auth.module'
 import { FormModule } from './modules/form/form.module'
 import { PrismaModule } from './modules/prisma/prisma.module'
 import { UserModule } from './modules/user/user.module'
+import { S3Module } from './modules/s3/s3.module'
 
 @Module({
 	imports: [
@@ -18,9 +17,10 @@ import { UserModule } from './modules/user/user.module'
 		PrismaModule,
 		AuthModule,
 		UserModule,
-		FormModule
+		FormModule,
+		S3Module
 	],
-	controllers: [AppController],
-	providers: [AppService]
+	controllers: [],
+	providers: []
 })
 export class AppModule {}
