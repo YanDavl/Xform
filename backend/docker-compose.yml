@@ -42,10 +42,10 @@ services:
     networks:
       - backend
 
-  llm:
+  ai:
     build:
-      context: ./llm
-    container_name: llm
+      context: ./ai
+    container_name: ai_service
     ports:
       - "8080:8080"
     environment:

@@ -7,6 +7,7 @@ import (
 
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		
 		cookie, err := r.Cookie("session")
 		if err != nil || cookie == nil || cookie.Value == "" {
 			http.Error(w, "Unauthorized: no session", http.StatusUnauthorized)
@@ -15,7 +16,8 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 		verifyURL := os.Getenv("AUTH_VERIFY_URL")
 		if verifyURL == "" {
-			verifyURL = "http://localhost:4000/auth/verify-session"
+			http.Error(w, "Internal error", http.StatusInternalServerError)
+			return
 		}
 
 		req, err := http.NewRequest("GET", verifyURL, nil)

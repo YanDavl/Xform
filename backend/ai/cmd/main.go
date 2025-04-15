@@ -12,8 +12,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 
-	"xform/llm/internal/handler"
-	"xform/llm/middlewares"
+	"xform/ai/internal/handler"
+	"xform/ai/middlewares"
 )
 
 func main() {
