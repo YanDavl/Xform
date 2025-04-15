@@ -1,7 +1,7 @@
 ## Стек
 
-Сервис Форм и Авторизации: Nest, postgres, prisma, redis
-Сервис генерации Форм с AI: go, chi router
+#Сервис Форм и Авторизации: Nest, postgres, prisma, redis
+#Сервис генерации Форм с AI: go, chi router, testify
 
 ## Запуск сервисов
 

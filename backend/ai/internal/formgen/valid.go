@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 var allowedTypes = map[string]bool{
@@ -27,15 +28,27 @@ func isOkField(f map[string]interface{}) bool {
 	return labelOk
 }
 
-func MapFields(raw []map[string]interface{}) []Field {
+func MapFields(raw interface{}) []Field {
+	rawList, ok := raw.([]interface{})
+	if !ok {
+		return nil
+	}
+
 	var result []Field
-	for _, f := range raw {
-		if !isOkField(f) {
-			continue
+	for _, item := range rawList {
+		obj, ok := item.(map[string]interface{})
+		if !ok {
+			logrus.Error("array contains non-object item")
+			return nil
 		}
 
-		l := f["label"].(string)
-		t := strings.ToUpper(f["type"].(string))
+		if !isOkField(obj) {
+			logrus.Error("array contains non-object item")
+			return nil
+		}
+
+		l := obj["label"].(string)
+		t := strings.ToUpper(obj["type"].(string))
 
 		result = append(result, Field{
 			ID:    uuid.New().String(),

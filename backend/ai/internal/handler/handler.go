@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"xform/llm/internal/formgen"
+	"xform/ai/internal/formgen"
 )
 
 type AskRequest struct {
@@ -17,14 +17,14 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
 	}
-	answer, err := formgen.CreateForm(req.Prompt)
 
+	answer, err := formgen.CreateForm(req.Prompt)
 	if err != nil {
 		http.Error(w, "LLM error", http.StatusInternalServerError)
 		return
 	}
 
-	rawFields, err := formgen.CleanRes(answer)
+	rawFields, err := formgen.CleanJSON(answer)
 	if err != nil {
 		http.Error(w, "Failed to parse LLM response", http.StatusInternalServerError)
 		return
