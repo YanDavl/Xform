@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { Form } from '@prisma/__generated__'
+
+import { Form } from '@/prisma/__generated__'
 
 import { PrismaService } from '../prisma/prisma.service'
 import { UserService } from '../user/user.service'
@@ -37,17 +38,31 @@ export class FormService {
 		})
 	}
 
-	async patchForm(id: string, createFormDto: CreateFormDto): Promise<Form> {
+	async patchForm(id: string, dto: Partial<CreateFormDto>): Promise<Form> {
+		const data: any = {}
+
+		if (dto.fields) {
+			await this.prisma.field?.deleteMany({
+				where: { formId: id }
+			})
+
+			data.fields = {
+				create: dto.fields.map(field => ({
+					id: field.id,
+					label: field.label,
+					type: field.type
+				}))
+			}
+		}
+
+		if (dto.user_id) {
+			data.user_id = dto.user_id
+		}
+
 		return this.prisma.form.update({
 			where: { id },
-			data: {
-				fields: {
-					create: createFormDto.fields
-				}
-			},
-			include: {
-				fields: true
-			}
+			data,
+			include: { fields: true }
 		})
 	}
 }
