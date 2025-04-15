@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
-
-import { Form } from '@/prisma/__generated__'
+import { Form } from '@prisma/__generated__'
 
 import { PrismaService } from '../prisma/prisma.service'
 import { UserService } from '../user/user.service'
