@@ -31,8 +31,8 @@ if [ ! -f "$ENV_FILE" ]; then
 fi
 
 if $LIGHT_MODE; then
-  echo "🚀 Запуск в лёгком режиме (только common, redis, postgres)..."
-  docker compose --env-file "$ENV_FILE" up $BUILD_FLAG common redis postgres
+  echo "🚀 Запуск в лёгком режиме (только core, redis, postgres)..."
+  docker compose --env-file "$ENV_FILE" up $BUILD_FLAG core redis postgres
 else
   echo "✅ Запуск всех сервисов..."
   docker compose --env-file "$ENV_FILE" up $BUILD_FLAG

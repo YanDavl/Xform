@@ -1,5 +1,6 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common'
-import { UserRole } from '@prisma/__generated__'
+
+import { UserRole } from '@/prisma/__generated__'
 
 import { Authorization } from '../auth/decorators/auth.decorator'
 import { Authorized } from '../auth/decorators/authorized.decorator'

@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Field, FieldType } from '@prisma/__generated__'
+
+import { Field, FieldType } from '@/prisma/__generated__'
 
 class FieldDto implements Field {
 	@ApiProperty({ type: 'string', format: 'uuid' })
