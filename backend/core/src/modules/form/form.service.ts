@@ -23,36 +23,18 @@ export class FormService {
 				fields: {
 					create: createFormDto.fields
 				}
-			},
-			include: {
-				fields: true
 			}
 		})
 	}
 
 	async getForm(id: string): Promise<Form> {
 		return this.prisma.form.findUnique({
-			where: { id },
-			include: { fields: true }
+			where: { id }
 		})
 	}
 
 	async patchForm(id: string, dto: Partial<CreateFormDto>): Promise<Form> {
 		const data: any = {}
-
-		if (dto.fields) {
-			await this.prisma.field?.deleteMany({
-				where: { formId: id }
-			})
-
-			data.fields = {
-				create: dto.fields.map(field => ({
-					id: field.id,
-					label: field.label,
-					type: field.type
-				}))
-			}
-		}
 
 		if (dto.user_id) {
 			data.user_id = dto.user_id
@@ -60,8 +42,7 @@ export class FormService {
 
 		return this.prisma.form.update({
 			where: { id },
-			data,
-			include: { fields: true }
+			data
 		})
 	}
 }

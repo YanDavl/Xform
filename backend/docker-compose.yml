@@ -5,11 +5,10 @@ services:
     image: minio/minio:latest
     container_name: minio
     ports:
-      - "9000:9000"   
-      - "9001:9001"   
-    environment:
-      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
-      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+      - "9000:9000"
+      - "9001:9001"
+    env_file:
+      - ./core/.env
     command: server --console-address ":9001" /data
     volumes:
       - minio_data:/data
@@ -20,10 +19,8 @@ services:
     image: postgres:15.2
     container_name: postgres
     restart: always
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+    env_file:
+      - ./core/.env
     ports:
       - 5433:5432
     volumes:
@@ -34,8 +31,10 @@ services:
   redis:
     image: redis:5.0
     container_name: redis
-    command: redis-server --requirepass ${REDIS_PASSWORD}
     restart: always
+    env_file:
+      - ./core/.env
+    command: sh -c 'redis-server --requirepass "${REDIS_PASSWORD}"'
     ports:
       - 6379:6379
     volumes:
@@ -50,13 +49,12 @@ services:
     ports:
       - "4000:4000"
     env_file:
-      - .env
+      - ./core/.env
     depends_on:
       - postgres
       - redis
     networks:
       - backend
-    # command: sh -c "npx prisma migrate deploy && node dist/main"
 
   ai:
     build:
@@ -64,31 +62,23 @@ services:
     container_name: ai_service
     ports:
       - "8080:8080"
-    environment:
-      - AUTH_VERIFY_URL=http://core:4000/auth/verify-session
-      - OLLAMA_URL=http://ollama:11434
-      - OLLAMA_MODEL=${OLLAMA_MODEL}
+    env_file:
+      - ./ai/.env
     depends_on:
       - core
       - ollama
     networks:
       - backend
-
   ollama:
     image: ollama/ollama:latest
     ports:
       - "11434:11434"
+    env_file:
+      - ./ai/.env
     volumes:
       - ollama:/root/.ollama
-    entrypoint: >
-      bash -c "
-        ollama serve & 
-        sleep 3 &&
-        ollama pull ${OLLAMA_MODEL} &&
-        wait
-      "
-    environment:
-      - OLLAMA_MODEL=${OLLAMA_MODEL}
+      - ./ai/run_model.sh:/run_model.sh:ro
+    entrypoint: ["/bin/bash", "-c", "/run_model.sh"]
     networks:
       - backend
 
@@ -97,7 +87,6 @@ volumes:
   redis_data:
   ollama:
   minio_data:
-
 
 networks:
   backend:
