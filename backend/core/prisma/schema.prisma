@@ -85,11 +85,23 @@ model Form {
   id        String   @id @default(uuid())
   formName  String?    @map("form_name")
   fields    Json?
+  answers   FormResponse[]
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("forms")
 }
+
+model FormResponse {
+  id        String   @id @default(uuid())
+  form      Form     @relation(fields: [formId], references: [id])
+  formId    String   @map("form_id")
+  answers   Json     @map("answers")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("form_responses")
+}
+
 
 enum FieldType {
   TEXT

@@ -20,6 +20,12 @@ while [[ "$#" -gt 0 ]]; do
   esac
 done
 
+### Считаем, что если node_modules не существует, то это первая установка
+if [ ! -d "core/node_modules" ]; then
+  echo "📦 Установка зависимостей в backend/core..."
+  (cd core && yarn && npx prisma generate)
+fi
+
 if $LIGHT_MODE; then
   echo "🚀 Запуск в лёгком режиме (только core, redis, postgres)..."
   docker compose up $BUILD_FLAG core redis postgres
