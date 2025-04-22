@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output = "./__generated__"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -83,7 +83,8 @@ model Form {
   user User @relation(fields: [userId], references: [id])
   userId String  @map("user_id")
   id        String   @id @default(uuid())
-  fields    Json
+  formName  String?    @map("form_name")
+  fields    Json?
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 

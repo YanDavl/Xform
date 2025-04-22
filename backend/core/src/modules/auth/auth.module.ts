@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common'
 
 import { UserService } from '@/modules/user/user.service'
 
-import { FormService } from '../form/form.service'
-
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { FieldType } from '@prisma/__generated__'
+import { FieldType } from '@prisma/client'
 
 export type Field = {
 	id: string

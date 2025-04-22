@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Form } from '@prisma/__generated__'
+import { Form } from '@prisma/client'
 
 import { PrismaService } from '../prisma/prisma.service'
 import { UserService } from '../user/user.service'
@@ -20,9 +20,7 @@ export class FormService {
 		return this.prisma.form.create({
 			data: {
 				userId,
-				fields: {
-					create: createFormDto.fields
-				}
+				fields: createFormDto.fields
 			}
 		})
 	}

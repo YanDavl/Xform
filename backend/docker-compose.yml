@@ -45,6 +45,7 @@ services:
   core:
     build:
       context: ./core
+      target: dev
     container_name: core_container
     ports:
       - "4000:4000"
@@ -53,6 +54,9 @@ services:
     depends_on:
       - postgres
       - redis
+    volumes:
+      - ./core:/app
+    command: yarn start:dev
     networks:
       - backend
 
@@ -69,6 +73,7 @@ services:
       - ollama
     networks:
       - backend
+
   ollama:
     image: ollama/ollama:latest
     ports:
