@@ -8,7 +8,7 @@
 
 - Установить [Docker Desktop](https://www.docker.com/get-started/)
 - Запустить Docker Desktop
-- Установить .env по аналогии с .env.example
+- Установить свой .env в core и ai папки (смотри .env.example)
 
 Первичная установка - флаг build
 
