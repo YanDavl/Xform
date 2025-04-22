@@ -8,6 +8,7 @@
 
 - Установить [Docker Desktop](https://www.docker.com/get-started/)
 - Запустить Docker Desktop
+- Установить .env по аналогии с .env.example
 
 Первичная установка - флаг build
 
@@ -29,8 +30,6 @@ $ ./run.sh
 $ ./run.sh --light
 ```
 
-Старт с каcтомным .env:
+```
 
-```bash
-$ ./run.sh ../my-env.env
 ```

@@ -12,7 +12,6 @@ const DATE = new Date()
 const mockCreateFormDto: CreateFormDto = {
 	fields: [
 		{
-			formId: FORM_ID,
 			id: '1',
 			label: '',
 			type: 'TEXT'
@@ -82,9 +81,6 @@ describe('FormService', () => {
 				fields: {
 					create: mockCreateFormDto.fields
 				}
-			},
-			include: {
-				fields: true
 			}
 		})
 
